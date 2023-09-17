@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise In Technology Games</title>
+    <style>
+        body {
+            background-color: #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            width: 320px;
+            margin: 20px auto;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            font-size: 36px;
+            text-align: center;
+            border: 1px solid #333;
+            cursor: pointer;
+            background-color: #fff;
+            transition: background-color 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cell:hover {
+            background-color: #f2f2f2;
+        }
+
+        .win {
+            background-color: #2ecc71;
+        }
+
+        .lose {
+            background-color: #e74c3c;
+        }
+
+        .draw {
+            background-color: #f1c40f;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-family: 'Pacifico', cursive;
+        }
+
+        p {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .player-X {
+            color: #3498db;
+            font-weight: bold;
+            font-family: 'Pacifico', cursive;
+        }
+
+        .player-O {
+            color: #e74c3c;
+            font-weight: bold;
+            font-family: 'Pacifico', cursive;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="startScreen">
+        <h2>Tic Tac Toe Game Harshmeet Singh </h2>
+        <button onclick="startGame('PvP')">Player vs. Player</button>
+        <button onclick="startGame('PvC')">Player vs. Computer</button>
+        <p></p>
+        <br><a href="index.html">Back to Main Site</a>
+    </div>
+    
+    <div class="container" id="gameScreen" style="display: none;">
+        <h1>Tic Tac Toe</h1>
+        <div class="board" id="board">
+            <!-- Create the 3x3 grid -->
+        </div>
+        <p id="status"></p>
+        <button onclick="resetGame()">Reset Game</button>
+        <button onclick="toggleMode()">Toggle Mode</button>
+        <p></p>
+        <br><a href="index.html">Back to Main Site</a>
+    </div>
+
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+    <script>
+        const board = document.getElementById('board');
+        const status = document.getElementById('status');
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+        let gameOver = false;
+        let computerMode = false;
+
+        function checkWin() {
+            const winCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            for (const combo of winCombinations) {
+                const [a, b, c] = combo;
+                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                    gameOver = true;
+                    return combo;
+                }
+            }
+
+            if (gameBoard.every(cell => cell !== '')) {
+                gameOver = true;
+                return 'draw';
+            }
+
+            return null;
+        }
+
+        function renderBoard() {
+            board.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell', gameBoard[i] === 'X' ? 'player-X' : 'player-O');
+                cell.textContent = gameBoard[i];
+                cell.addEventListener('click', () => cellClick(i));
+                board.appendChild(cell);
+            }
+        }
+
+        function cellClick(index) {
+            if (!gameOver && gameBoard[index] === '') {
+                gameBoard[index] = currentPlayer;
+                renderBoard();
+                const winCombo = checkWin();
+                if (winCombo) {
+                    if (winCombo === 'draw') {
+                        status.textContent = "It's a draw!";
+                        status.classList.add('draw');
+                    } else {
+                        status.textContent = `${currentPlayer} wins!`;
+                        status.classList.add('win');
+                        for (const cellIndex of winCombo) {
+                            board.children[cellIndex].classList.add('win');
+                        }
+                    }
+                    gameOver = true;
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    if (computerMode && currentPlayer === 'O') {
+                        computerMove();
+                    }
+                }
+            }
+        }
+
+        function resetGame() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            gameOver = false;
+            currentPlayer = 'X';
+            status.textContent = '';
+            status.classList.remove('win', 'draw');
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => cell.classList.remove('win'));
+            renderBoard();
+        }
+
+        function toggleMode() {
+            computerMode = !computerMode;
+            resetGame();
+            status.textContent = `Mode: ${computerMode ? 'Computer' : 'Player vs. Player'}`;
+            if (computerMode && currentPlayer === 'O') {
+                computerMove();
+            }
+        }
+
+        function computerMove() {
+            const emptyCells = gameBoard.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
+            if (emptyCells.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                cellClick(emptyCells[randomIndex]);
+            }
+        }
+
+        function startGame(mode) {
+            computerMode = mode === 'PvC';
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            resetGame();
+            if (computerMode && currentPlayer === 'O') {
+                computerMove();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -5,225 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rise In Technology Games </title>
     <style>
-        body {
-            background-color: #3498db;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        /* Reset some default styles for better consistency */
+        body, h1, ul, li {
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            padding: 0;
         }
 
-        .container {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3498db; /* Bright blue background */
+            color: #fff;
+        }
+
+        header {
+            background-color: #333;
             padding: 20px;
             text-align: center;
         }
 
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-gap: 5px;
-            width: 320px;
-            margin: 20px auto;
-        }
-
-        .cell {
-            width: 100px;
-            height: 100px;
+        header h1 {
             font-size: 36px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow for a subtle effect */
+        }
+
+        nav {
+            background-color: #222;
             text-align: center;
-            border: 1px solid #333;
-            cursor: pointer;
-            background-color: #fff;
-            transition: background-color 0.3s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .cell:hover {
-            background-color: #f2f2f2;
+        nav ul {
+            list-style: none;
+            padding: 10px 0;
         }
 
-        .win {
-            background-color: #2ecc71;
+        nav li {
+            display: inline-block;
+            margin-right: 20px;
         }
 
-        .lose {
-            background-color: #e74c3c;
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 18px;
+            transition: color 0.3s ease-in-out;
         }
 
-        .draw {
-            background-color: #f1c40f;
+        nav a:hover {
+            color: #e74c3c; /* Bright red on hover */
         }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            font-family: 'Pacifico', cursive;
-        }
-
-        p {
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        .player-X {
-            color: #3498db;
-            font-weight: bold;
-            font-family: 'Pacifico', cursive;
-        }
-
-        .player-O {
-            color: #e74c3c;
-            font-weight: bold;
-            font-family: 'Pacifico', cursive;
-        }
-
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 20px;
-            cursor: pointer;
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
             border-radius: 5px;
-            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .game {
+            background-color: #222;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .game:hover {
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .game h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Customize your game styles here */
+        /* ... */
+
+        /* Add more game styles as needed */
+
+        .game p {
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .game a {
+            text-decoration: none;
+            background-color: #e74c3c; /* Bright red button */
+            color: #fff;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
             transition: background-color 0.3s ease-in-out;
         }
 
-        button:hover {
-            background-color: #2980b9;
+        .game a:hover {
+            background-color: #3498db; /* Bright blue on hover */
+        }
+
+        footer {
+            background-color: #333;
+            padding: 20px;
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        /* Marquee effect for footer */
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            animation: marquee 10s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="startScreen">
-        <h2>Tic Tac Toe Game Harshmeet Singh </h2>
-        <button onclick="startGame('PvP')">Player vs. Player</button>
-        <button onclick="startGame('PvC')">Player vs. Computer</button>
+    <header>
+        <h1><u>Rise In Technology Games</u></h1>
+    </header>
+    <div class="container">
+        <section id="tic-tac-toe" class="game">
+            <h2>Tic Tac Toe</h2>
+            <!-- Include your Tic Tac Toe game here or link to it -->
+            <!-- You can use an iframe, embed, or other method to include the game -->
+            <p>Play the classic game of Tic Tac Toe.</p>
+            <a href="game1.html">Play Now</a>
+        </section>
+        <section id="other-game" class="game">
+            <h2>Other Game are coming soon</h2>
+            <!-- Include your other game here or link to it -->
+            <p>Play another exciting game.</p>
+            <a href="#">Play Now</a>
+        </section>
+        <!-- Add more game sections as needed -->
     </div>
-    
-    <div class="container" id="gameScreen" style="display: none;">
-        <h1>Tic Tac Toe</h1>
-        <div class="board" id="board">
-            <!-- Create the 3x3 grid -->
-        </div>
-        <p id="status"></p>
-        <button onclick="resetGame()">Reset Game</button>
-        <button onclick="toggleMode()">Toggle Mode</button>
-    </div>
-
-    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
-    <script>
-        const board = document.getElementById('board');
-        const status = document.getElementById('status');
-        let currentPlayer = 'X';
-        let gameBoard = ['', '', '', '', '', '', '', '', ''];
-        let gameOver = false;
-        let computerMode = false;
-
-        function checkWin() {
-            const winCombinations = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8],
-                [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                [0, 4, 8], [2, 4, 6]
-            ];
-
-            for (const combo of winCombinations) {
-                const [a, b, c] = combo;
-                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-                    gameOver = true;
-                    return combo;
-                }
-            }
-
-            if (gameBoard.every(cell => cell !== '')) {
-                gameOver = true;
-                return 'draw';
-            }
-
-            return null;
-        }
-
-        function renderBoard() {
-            board.innerHTML = '';
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell', gameBoard[i] === 'X' ? 'player-X' : 'player-O');
-                cell.textContent = gameBoard[i];
-                cell.addEventListener('click', () => cellClick(i));
-                board.appendChild(cell);
-            }
-        }
-
-        function cellClick(index) {
-            if (!gameOver && gameBoard[index] === '') {
-                gameBoard[index] = currentPlayer;
-                renderBoard();
-                const winCombo = checkWin();
-                if (winCombo) {
-                    if (winCombo === 'draw') {
-                        status.textContent = "It's a draw!";
-                        status.classList.add('draw');
-                    } else {
-                        status.textContent = `${currentPlayer} wins!`;
-                        status.classList.add('win');
-                        for (const cellIndex of winCombo) {
-                            board.children[cellIndex].classList.add('win');
-                        }
-                    }
-                    gameOver = true;
-                } else {
-                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                    if (computerMode && currentPlayer === 'O') {
-                        computerMove();
-                    }
-                }
-            }
-        }
-
-        function resetGame() {
-            gameBoard = ['', '', '', '', '', '', '', '', ''];
-            gameOver = false;
-            currentPlayer = 'X';
-            status.textContent = '';
-            status.classList.remove('win', 'draw');
-            const cells = document.querySelectorAll('.cell');
-            cells.forEach(cell => cell.classList.remove('win'));
-            renderBoard();
-        }
-
-        function toggleMode() {
-            computerMode = !computerMode;
-            resetGame();
-            status.textContent = `Mode: ${computerMode ? 'Computer' : 'Player vs. Player'}`;
-            if (computerMode && currentPlayer === 'O') {
-                computerMove();
-            }
-        }
-
-        function computerMove() {
-            const emptyCells = gameBoard.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
-            if (emptyCells.length > 0) {
-                const randomIndex = Math.floor(Math.random() * emptyCells.length);
-                cellClick(emptyCells[randomIndex]);
-            }
-        }
-
-        function startGame(mode) {
-            computerMode = mode === 'PvC';
-            document.getElementById('startScreen').style.display = 'none';
-            document.getElementById('gameScreen').style.display = 'block';
-            resetGame();
-            if (computerMode && currentPlayer === 'O') {
-                computerMove();
-            }
-        }
-    </script>
+    <footer>
+        <p class="marquee">Explore our collection of games and have fun! | &copy; 2023 Rise In Technology Games</p>
+    </footer>
 </body>
 </html>

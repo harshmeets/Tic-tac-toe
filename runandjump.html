@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rise In Technology Games</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #87CEEB;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            background-color: #FFFFFF;
+            border: 2px solid #000000;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h1> Run and Jump Game By Harshmeet Singh </h1>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <button id="playButton">Play</button>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        const player = {
+            x: 100,
+            y: canvas.height - 200, // Adjusted starting position
+            width: 50,
+            height: 50,
+            speed: 5,
+            jumping: false,
+            jumpPower: 10, // Increased jump power
+            jumpDuration: 300, // 3 seconds (in milliseconds)
+            jumpStartTime: 0,
+            alive: false,
+        };
+        
+
+        const coins = [];
+        const obstacles = [];
+
+        let score = 0;
+
+        function drawPlayer() {
+            ctx.fillStyle = "#FF0000";
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function drawCoin(coin) {
+            ctx.fillStyle = "#FFFF00";
+            ctx.fillRect(coin.x, canvas.height - 20, 20, 20); // Coins appear on the ground
+        }
+
+        function drawObstacle(obstacle) {
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(obstacle.x, obstacle.y, 30, 30);
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (player.alive) {
+                drawPlayer();
+                handleJump();
+                playerJump();
+
+                if (Math.random() < 0.02) {
+                    coins.push({ x: canvas.width, y: canvas.height - 20 });
+                }
+
+                if (Math.random() < 0.01) {
+                    obstacles.push({ x: canvas.width, y: canvas.height - 30 });
+                }
+
+                coins.forEach((coin, index) => {
+                    coin.x -= player.speed;
+                    drawCoin(coin);
+
+                    if (coin.x < 0) {
+                        coins.splice(index, 1);
+                    }
+
+                    if (
+                        player.x < coin.x + 20 &&
+                        player.x + player.width > coin.x &&
+                        player.y < canvas.height - 20 + 20 &&
+                        player.y + player.height > canvas.height - 20
+                    ) {
+                        coins.splice(index, 1);
+                        score += 10;
+                    }
+                });
+
+                obstacles.forEach((obstacle, index) => {
+                    obstacle.x -= player.speed;
+                    drawObstacle(obstacle);
+
+                    if (obstacle.x < 0) {
+                        obstacles.splice(index, 1);
+                    }
+
+                    if (
+                        player.x < obstacle.x + 30 &&
+                        player.x + player.width > obstacle.x &&
+                        player.y < obstacle.y + 30 &&
+                        player.y + player.height > obstacle.y
+                    ) {
+                        endGame();
+                    }
+                });
+
+                requestAnimationFrame(update);
+            } else {
+                ctx.font = "30px Arial";
+                ctx.fillStyle = "#000000";
+                ctx.fillText("Game Over! Your Score: " + score, 250, 200);
+            }
+        }
+
+        function handleJump() {
+            const currentTime = Date.now();
+            const elapsedTime = currentTime - player.jumpStartTime;
+
+            if (player.jumping && elapsedTime >= player.jumpDuration) {
+                player.jumping = false;
+            }
+        }
+
+        function playerJump() {
+            if (player.jumping) {
+                player.y -= player.jumpPower;
+            } else if (player.y + player.height < canvas.height) {
+                player.y += player.jumpPower / 2;
+            } else {
+                player.y = canvas.height - player.height;
+            }
+        }
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowUp" && !player.jumping) {
+                player.jumping = true;
+                player.jumpStartTime = Date.now();
+            }
+            if (event.key === "ArrowRight" && player.x < canvas.width - player.width) {
+                player.x += player.speed;
+            }
+            if (event.key === "ArrowLeft" && player.x > 0) {
+                player.x -= player.speed;
+            }
+        });
+
+        document.getElementById("playButton").addEventListener("click", startGame);
+
+        function startGame() {
+            player.alive = true;
+            player.jumping = false;
+            player.jumpStartTime = 0;
+            score = 0;
+            coins.length = 0;
+            obstacles.length = 0;
+            document.getElementById("playButton").style.display = "none";
+            update();
+        }
+
+        function endGame() {
+            player.alive = false;
+            document.getElementById("playButton").style.display = "block";
+        }
+    </script>
+     <br><a href="index.html">Back to Main Site</a>
+</body>
+</html>
